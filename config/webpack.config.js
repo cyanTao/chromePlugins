@@ -12,16 +12,21 @@ module.exports = {
   entry: {
     popup: {
       import: path.resolve(sourcePath, './popup/index.ts'),
-      filename: '[name].[hash].js'
+      filename: '[name].[hash].js',
     },
-    content: {
+    contentJs: {
       import: path.resolve(sourcePath, './content/index.ts'),
       filename: 'content.js'
     },
+    contentCss: {
+      import: path.resolve(sourcePath, './content/index.less'),
+      filename: 'content.css'
+    },
   },
-  devtool: 'cheap-source-map',
+  devtool: false,
   output: {
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, '../dist'),
+    filename: 'js/[name].js'
   },
   module: {
     rules: [{
@@ -108,8 +113,8 @@ module.exports = {
       title: 'super JenKins',
       template: path.resolve(__dirname, '../template/index.html'),
       filename: path.resolve(__dirname, '../dist/index.html'),
-      excludeChunks: ['content'],
-      minify: true,
+      excludeChunks: ['contentJs', 'contentCss'],
+      minify: process.env.NODE_ENV === 'production',
       showErrors: true,
     }),
     new CopyPlugin({

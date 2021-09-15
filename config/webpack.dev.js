@@ -1,4 +1,3 @@
-const path = require('path');
 const webpack = require('webpack');
 const {
   merge
@@ -15,7 +14,6 @@ module.exports = merge(baseConfig, {
     clean: true
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
     })
