@@ -1,38 +1,45 @@
 <template>
-  <section class='body'>
-    <el-input></el-input>
+  <section class="body">
+    <el-button type="primary">执行</el-button>
+    <el-button>执行</el-button>
+    <form action="">
+      <input name="name" type="text" />
+      <input name="password" type="text" />
+    </form>
   </section>
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
-  data () {
-    return {
-    }
+  data() {
+    return {}
   },
 
-  components: {
-  },
+  components: {},
 
-  computed: {
-  },
+  computed: {},
 
-  watch: {
-  },
+  watch: {},
 
-  methods: {
-  },
+  methods: {},
 
-  created () {
-  }
+  created() {
+    // $(window).on('mousemove', function(e) {
+    //   console.log(e)
+    // })
+    // window.addEventListener('mousemove', function (e) {
+    //   console.log(e)
+    //   $(e.target).addClass('dom-hover-style')
+    // })
+    // window.addEventListener('mouseleave', function (e) {
+    //   $(e.target).removeClass('dom-hover-style')
+    // })
+  },
 }
-
 </script>
 <style lang='less' scoped>
-.body {
-  width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
-  overflow-y: scroll;
+.dom-hover-style {
+  color: red;
 }
 </style>

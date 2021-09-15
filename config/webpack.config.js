@@ -33,7 +33,9 @@ module.exports = {
         test: /\.css$/,
         use: [
           styleLoader,
-          'css-loader'
+          {
+            loader: 'css-loader'
+          }
         ]
       }, {
         test: /\.less$/,
@@ -45,21 +47,23 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif|jpeg)$/,
-        use: [
-          'file-loader'
-        ]
-      },
-      {
-        test: /\.(png|svg|jpg|gif|jpeg)$/,
-        use: [
-          'file-loader'
-        ]
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: './img'
+          }
+        }],
+
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          'file-loader'
-        ]
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: './fonts'
+          }
+        }],
+
       },
       {
         test: /\.vue?$/,
@@ -111,8 +115,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: 'super JenKins',
-      template: path.resolve(__dirname, '../template/index.html'),
-      filename: path.resolve(__dirname, '../dist/index.html'),
+      template: path.resolve(__dirname, '../template/popup.html'),
+      filename: path.resolve(__dirname, '../dist/popup.html'),
       excludeChunks: ['contentJs', 'contentCss'],
       minify: process.env.NODE_ENV === 'production',
       showErrors: true,

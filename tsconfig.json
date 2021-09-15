@@ -1,9 +1,15 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "outDir": "./dist/",
+    "lib": ["ES2015", "DOM"],
+    "target": "es5",
+    "module": "ES6",
+    "moduleResolution": "node",
     "typeRoots": [
-      "src/types",
-      "./node_modules/vue/types"
+      "./src/types",
+      "./node_modules/vue/types",
+      "./node_modules/@types",
     ],
     "baseUrl": "./",
     "paths": {
@@ -20,7 +26,7 @@
   },
   "include": [
     "src"
-, "types"  ],
+  ],
   "exclude": [
     "node_modules"
   ]

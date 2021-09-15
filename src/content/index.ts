@@ -1,7 +1,16 @@
-import * as test from './test'
-import * as page from './page'
+console.log(2342323)
+const contentScript = {
+  async building(req: any, callback: Function) {
+    callback();
+  },
+};
+chrome.runtime.onMessage.addListener((req, sender, callback) => {
+  const fn = contentScript[req.greeting] || (() => callback('not set'))();
+  fn(req, callback);
+});
 
-export default {
-  test,
-  page
+const sleep = (time = 0) => new Promise((resolve) => setTimeout(resolve, time));
+
+function setMessageToTabs() {
+  chrome.runtime.sendMessage({});
 }

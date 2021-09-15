@@ -942,6 +942,14 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@types/chrome@^0.0.157":
+  version "0.0.157"
+  resolved "https://registry.nlark.com/@types/chrome/download/@types/chrome-0.0.157.tgz#5a50bd378f4f632383c6ebbc34c88fb87d501f58"
+  integrity sha1-WlC9N49PYyODxuu8NMiPuH1QH1g=
+  dependencies:
+    "@types/filesystem" "*"
+    "@types/har-format" "*"
+
 "@types/eslint-scope@^3.7.0":
   version "3.7.1"
   resolved "https://registry.nlark.com/@types/eslint-scope/download/@types/eslint-scope-3.7.1.tgz?cache=0&sync_timestamp=1629707496537&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Feslint-scope%2Fdownload%2F%40types%2Feslint-scope-3.7.1.tgz#8dc390a7b4f9dd9f1284629efce982e41612116e"
@@ -963,20 +971,54 @@
   resolved "https://registry.nlark.com/@types/estree/download/@types/estree-0.0.50.tgz#1e0caa9364d3fccd2931c3ed96fdbeaa5d4cca83"
   integrity sha1-Hgyqk2TT/M0pMcPtlv2+ql1MyoM=
 
+"@types/filesystem@*":
+  version "0.0.32"
+  resolved "https://registry.nlark.com/@types/filesystem/download/@types/filesystem-0.0.32.tgz#307df7cc084a2293c3c1a31151b178063e0a8edf"
+  integrity sha1-MH33zAhKIpPDwaMRUbF4Bj4Kjt8=
+  dependencies:
+    "@types/filewriter" "*"
+
+"@types/filewriter@*":
+  version "0.0.29"
+  resolved "https://registry.nlark.com/@types/filewriter/download/@types/filewriter-0.0.29.tgz#a48795ecadf957f6c0d10e0c34af86c098fa5bee"
+  integrity sha1-pIeV7K35V/bA0Q4MNK+GwJj6W+4=
+
+"@types/har-format@*":
+  version "1.2.7"
+  resolved "https://registry.nlark.com/@types/har-format/download/@types/har-format-1.2.7.tgz#debfe36378f26c4fc2abca1df99f00a8ff94fd29"
+  integrity sha1-3r/jY3jybE/Cq8od+Z8AqP+U/Sk=
+
 "@types/html-minifier-terser@^5.0.0":
   version "5.1.2"
   resolved "https://registry.nlark.com/@types/html-minifier-terser/download/@types/html-minifier-terser-5.1.2.tgz#693b316ad323ea97eed6b38ed1a3cc02b1672b57"
   integrity sha1-aTsxatMj6pfu1rOO0aPMArFnK1c=
+
+"@types/jquery@^3.5.6":
+  version "3.5.6"
+  resolved "https://registry.nlark.com/@types/jquery/download/@types/jquery-3.5.6.tgz?cache=0&sync_timestamp=1629708140308&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fjquery%2Fdownload%2F%40types%2Fjquery-3.5.6.tgz#97ac8e36dccd8ad8ed3f3f3b48933614d9fd8cf0"
+  integrity sha1-l6yONtzNitjtPz87SJM2FNn9jPA=
+  dependencies:
+    "@types/sizzle" "*"
 
 "@types/json-schema@*", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8":
   version "7.0.9"
   resolved "https://registry.nlark.com/@types/json-schema/download/@types/json-schema-7.0.9.tgz?cache=0&sync_timestamp=1629708189890&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fjson-schema%2Fdownload%2F%40types%2Fjson-schema-7.0.9.tgz#97edc9037ea0c38585320b28964dde3b39e4660d"
   integrity sha1-l+3JA36gw4WFMgsolk3eOznkZg0=
 
+"@types/lodash@^4.14.172":
+  version "4.14.172"
+  resolved "https://registry.nlark.com/@types/lodash/download/@types/lodash-4.14.172.tgz#aad774c28e7bfd7a67de25408e03ee5a8c3d028a"
+  integrity sha1-qtd0wo57/Xpn3iVAjgPuWow9Aoo=
+
 "@types/node@*":
   version "16.9.1"
   resolved "https://registry.nlark.com/@types/node/download/@types/node-16.9.1.tgz?cache=0&sync_timestamp=1631217813487&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-16.9.1.tgz#0611b37db4246c937feef529ddcc018cf8e35708"
   integrity sha1-BhGzfbQkbJN/7vUp3cwBjPjjVwg=
+
+"@types/sizzle@*":
+  version "2.3.3"
+  resolved "https://registry.nlark.com/@types/sizzle/download/@types/sizzle-2.3.3.tgz?cache=0&sync_timestamp=1629709217852&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fsizzle%2Fdownload%2F%40types%2Fsizzle-2.3.3.tgz#ff5e2f1902969d305225a047c8a0fd5c915cebef"
+  integrity sha1-/14vGQKWnTBSJaBHyKD9XJFc6+8=
 
 "@vue/component-compiler-utils@^3.1.0":
   version "3.2.2"

@@ -7,7 +7,8 @@ module.exports = {
   },
   'globals': {
     'Promise': true,
-    'rootApp': true
+    'chrome': true,
+    '$': true,
   },
   'extends': [
     'eslint:recommended'
