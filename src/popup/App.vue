@@ -13,7 +13,9 @@
 import _ from 'lodash'
 export default {
   data() {
-    return {}
+    return {
+      className: 'dom-hover-style',
+    }
   },
 
   components: {},
@@ -25,9 +27,12 @@ export default {
   methods: {},
 
   created() {
-    // $(window).on('mousemove', function(e) {
-    //   console.log(e)
-    // })
+    $(window).on(
+      'mousemove',
+      _.debounce((e) => {
+        $(e.target).addClass(this.className)
+      })
+    )
     // window.addEventListener('mousemove', function (e) {
     //   console.log(e)
     //   $(e.target).addClass('dom-hover-style')
@@ -40,6 +45,6 @@ export default {
 </script>
 <style lang='less' scoped>
 .dom-hover-style {
-  color: red;
+  border: 2px solid red !important;
 }
 </style>
