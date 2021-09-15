@@ -1,4 +1,4 @@
-console.log(2342323)
+import './index.less'
 const contentScript = {
   async building(req: any, callback: Function) {
     callback();

@@ -12,16 +12,12 @@ module.exports = {
   entry: {
     popup: {
       import: path.resolve(sourcePath, './popup/index.ts'),
-      filename: '[name].[hash].js',
+      filename: 'js/[name].js',
     },
-    contentJs: {
+    content: {
       import: path.resolve(sourcePath, './content/index.ts'),
-      filename: 'content.js'
-    },
-    contentCss: {
-      import: path.resolve(sourcePath, './content/index.less'),
-      filename: 'content.css'
-    },
+      filename: 'js/[name].js'
+    }
   },
   devtool: false,
   output: {
@@ -111,13 +107,13 @@ module.exports = {
       formatter: require('eslint-friendly-formatter') // 指定错误报告的格式规范
     }),
     new MiniCssExtractPlugin({
-      filename: `css/[name].[contenthash:8].css`
+      filename: `css/[name].css`
     }),
     new HtmlWebpackPlugin({
       title: 'super JenKins',
       template: path.resolve(__dirname, '../template/popup.html'),
       filename: path.resolve(__dirname, '../dist/popup.html'),
-      excludeChunks: ['contentJs', 'contentCss'],
+      excludeChunks: ['content'],
       minify: process.env.NODE_ENV === 'production',
       showErrors: true,
     }),
