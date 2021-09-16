@@ -95,11 +95,7 @@ module.exports = {
   externals: {
     jquery: 'jQuery',
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all'
-    }
-  },
+  optimization: {},
   plugins: [
     new VueLoaderPlugin(),
     new ESLintPlugin({

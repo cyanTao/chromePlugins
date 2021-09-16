@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const value = list.find(item => item.key === $('#jobList').val())
       jumpJenkis(tabId => {
         chrome.tabs.sendMessage(tabId, {
-          greeting: "building",
+          greeting: 'building',
           value
         }, (res) => {
           console.log(res)
@@ -115,9 +115,7 @@ function jumpJenkis(callback = () => {}) {
     chrome.tabs.update(tab.id, {
       url: 'http://js-op.vipthink.cn/job/tao.tao/build?delay=0sec'
     }, () => {
-      setTimeout(() => {
-        callback(tab.id)
-      }, 3000)
+      callback(tab.id)
     })
   });
 
@@ -129,19 +127,22 @@ function renderSelect(list) {
 }
 
 function getCurrentTab(callback) {
-  var queryInfo = {
-    active: true,
-    currentWindow: true
-  };
+  return new Promise((resolve) => {
+    var queryInfo = {
+      active: true,
+      currentWindow: true
+    };
 
-  chrome.tabs.query(queryInfo, (tabs) => {
-    var tab = tabs[0];
+    chrome.tabs.query(queryInfo, (tabs) => {
+      var tab = tabs[0];
 
-    var url = tab.url;
-    console.assert(typeof url == 'string', 'tab.url should be a string');
+      var url = tab.url;
+      console.assert(typeof url == 'string', 'tab.url should be a string');
 
-    callback(tab);
-  });
+      callback(tab);
+    });
+  })
+
 }
 
 function executeScript(script = 'alert(123)') {
