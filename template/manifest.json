@@ -12,7 +12,7 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {
-      "matches": ["https://www.baidu.com/*"],
+      "matches": ["https://www.baidu.com/*", "http://127.0.0.1:5500/*"],
       "js": ["libs/jquery.min.js", "js/content.js"],
       "css": ["css/content.css"],
       "run_at": "document_idle"

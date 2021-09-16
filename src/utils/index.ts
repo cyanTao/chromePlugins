@@ -59,19 +59,24 @@ export async function getCurrentTab() {
  */
 export function jumpJenkis() {
   return new Promise((resolve) => {
-    const url = 'http://192.168.32.19:8080/jenkins/job/middle_platform_deploy/build?delay=0sec'
+    // const url = 'http://192.168.32.19:8080/jenkins/job/middle_platform_deploy/build?delay=0sec'
+    const url = 'http://127.0.0.1:5500/dist/popup.html'
 
-    getCurrentTab().then((tab: { id: number }) => {
-      chrome.tabs.update(
-        tab.id,
-        {
-          url,
-        },
-        async () => {
-          await sleep(3000)
-          resolve(tab.id)
-        }
-      )
+    getCurrentTab().then((tab: { id: number; url: string }) => {
+      if (tab.url === url) {
+        resolve(tab.id)
+      } else {
+        chrome.tabs.update(
+          tab.id,
+          {
+            url,
+          },
+          async () => {
+            await sleep(3000)
+            resolve(tab.id)
+          }
+        )
+      }
     })
   })
 }
@@ -99,7 +104,7 @@ export function sendMessage(
  * @param message 消息内容
  * @returns Promise
  */
-export function setMessageToTabs(message) {
+export function sendMessageToTabs(message) {
   return new Promise((resolve) => {
     chrome.runtime.sendMessage(message)
   })

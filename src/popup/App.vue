@@ -22,25 +22,43 @@
           </el-select>
         </el-row>
         <el-row class="mt15">
-          <el-button type="success" @click="editMode = true">新增</el-button>
-          <el-button type="default" @click="editMode = true">编辑</el-button>
+          <el-button type="success" @click="editForm(true)">新增</el-button>
+          <el-button type="default" @click="editForm(false)">编辑</el-button>
           <el-button type="danger" @click="deleteItem">删除</el-button>
         </el-row>
       </template>
     </template>
-
     <!-- 编辑模式 -->
     <template v-if="editMode">
       <el-button v-if="!catchMode" type="success" @click="catchForm(true)">抓取表单内容</el-button>
       <el-button v-else type="info" @click="catchForm(false)">退出抓取</el-button>
       <el-divider></el-divider>
-      <el-form class="mt15" ref="formRef">
-        <el-form-item v-for="(item, index) in formValueList" :key="index">
-          <el-input v-model="item.name" placeholder="请输入name"> </el-input>
-          <el-input v-model="item.value" placeholder="请输入value"> </el-input>
-        </el-form-item>
+      <el-form class="mt15" ref="formRef" :model="{ formValueList }">
+        <el-row v-for="(item, index) in formValueList" :key="index">
+          <el-row class="form-row-item">
+            <el-col :span="10">
+              <el-form-item
+                :prop="'formValueList.' + index + '.value'"
+                :rules="[{ required: true, message: '请输入name', trigger: 'blur' }]"
+              >
+                <el-input v-model="item.name" placeholder="请输入name"></el-input
+              ></el-form-item>
+            </el-col>
+            <el-col class="ml15" :span="10">
+              <el-form-item
+                :prop="'formValueList.' + index + '.value'"
+                :rules="[{ required: true, message: '请输入value', trigger: 'blur' }]"
+              >
+                <el-input v-model="item.value" placeholder="请输入value"></el-input>
+              </el-form-item>
+            </el-col>
+            <i class="delete el-icon-delete" @click="formValueList.splice(index, 1)"></i>
+          </el-row>
+        </el-row>
         <el-form-item>
-          <el-button type="success" circle> + </el-button>
+          <el-button type="success" @click="formValueList.push({ name: '', value: '' })"
+            >添加选项</el-button
+          >
         </el-form-item>
         <el-form-item>
           <el-button @click="editMode = false">取消</el-button>
@@ -48,6 +66,12 @@
         </el-form-item>
       </el-form>
     </template>
+    <form action="">
+      <input name="git_url" type="text" value="1" />
+      <input name="git_branch" type="text" value="2" />
+      <input name="deployIps" type="checkbox" value="192.168.30.15" />
+      <input name="deployIps" type="checkbox" value="192.168.44.18" />
+    </form>
   </section>
 </template>
 
@@ -103,28 +127,65 @@ export default {
   watch: {},
 
   methods: {
+    editForm(isAdd) {
+      if (isAdd) {
+        this.editInfo = {}
+      } else {
+        const target = this.getCurrentSelect()
+        this.editInfo = target
+        this.formValueList = _.cloneDeep(target.formValue)
+      }
+    },
+    getCurrentSelect(isIndex = false) {
+      const index = this.modeList.findIndex((item) => item.value === this.mode)
+      return isIndex ? index : _.cloneDeep(this.modeList[index])
+    },
     editOperate() {
-      this.$refs.formRef.validateor((item) => {
-        console.log(item)
+      this.$refs.formRef.validate((valid) => {
+        if (valid) {
+          this.editMode = false
+          // 编辑
+          if (Object.keys(editInfo)) {
+            this.modeList.push({
+              name: this.name,
+            })
+          } else {
+            const index = this.getCurrentSelect(true)
+          }
+          this.setStorage()
+        }
       })
-      console.log()
     },
     async deleteItem() {
       await this.$confirm('确认删除吗?')
-      console.log(13)
+      const index = this.getCurrentSelect(true)
+      this.modeList.splice(index, 1)
+      this.setStorage()
     },
-    async catchForm(type) {
-      if (type) {
-        this.catchMode = true
-      } else {
-        this.catchMode = false
+    setStorage() {
+      console.log(111)
+    },
+    async catchForm(type, sendMess = true) {
+      this.catchMode = type
+      console.log(type)
+      if (sendMess) {
+        const tabId = await Utils.jumpJenkis()
+        Utils.sendMessage(tabId, { greeting: type ? 'catchElement' : 'unCatchElement' })
       }
-      const res = await Utils.jumpJenkis()
-      console.log(res)
     },
   },
 
-  created() {},
+  created() {
+    chrome.extension?.onMessage.addListener((request) => {
+      const fn = {
+        catchForm: () => this.catchForm(false, request.value, false),
+        setFormValue: () => {
+          this.formValueList = request.value
+        },
+      }[request.greeting || 'default']
+      fn()
+    })
+  },
 }
 </script>
 <style lang='less' scoped>
@@ -146,6 +207,17 @@ export default {
   align-items: center;
   .expend-checkbox {
     text-align: right;
+  }
+}
+.form-row-item {
+  position: relative;
+  .delete {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: red;
+    cursor: pointer;
   }
 }
 </style>
