@@ -8,14 +8,19 @@ const activeClassName = 'dom-active-style',
 
 const contentScript = {
   async catchElement(req?: any, callback = () => {}) {
+    $(`.${activeClassName}`).removeClass(activeClassName)
     $(window).on('mousemove', moveEvent)
     $(window).on('click', windowClickEvent)
     callback()
   },
   async unCatchElement(req?: any, callback = () => {}) {
+    $(`.${hoverClassName}`).removeClass(hoverClassName)
     $(window).off('mousemove', moveEvent)
     $(window).off('click', windowClickEvent)
-    $(`.${hoverClassName}`).removeClass(hoverClassName)
+    callback()
+  },
+  async doJenkins(req, callback) {
+    console.log(req)
     callback()
   },
   async building(req: any, callback = () => {}) {
@@ -57,7 +62,6 @@ function windowMoveEvent() {
 
 function windowClickEvent(e) {
   e.preventDefault()
-  console.log()
 
   $(e.target).addClass(activeClassName)
   contentScript.unCatchElement()

@@ -3,16 +3,16 @@
     <!-- 非编辑模式 -->
     <template v-if="!editMode">
       <el-row class="header-row">
-        <el-col span="12">
-          <el-button type="primary">执行</el-button>
+        <el-col :span="12">
+          <el-button type="primary" @click="doJenkins">执行</el-button>
         </el-col>
-        <el-col span="12">
+        <el-col :span="12">
           <el-checkbox class="expend-checkbox" v-model="isExpand">展开</el-checkbox>
         </el-col>
       </el-row>
       <template v-if="isExpand">
         <el-row class="mt15">
-          <el-select v-model="mode">
+          <el-select v-model="mode" @change="selectChange">
             <el-option
               v-for="(item, index) in modeList"
               :key="index"
@@ -33,7 +33,14 @@
       <el-button v-if="!catchMode" type="success" @click="catchForm(true)">抓取表单内容</el-button>
       <el-button v-else type="info" @click="catchForm(false)">退出抓取</el-button>
       <el-divider></el-divider>
-      <el-form class="mt15" ref="formRef" :model="{ formValueList }">
+      <el-form class="mt15" ref="formRef" :model="{ name: formName, formValueList }">
+        <el-form-item
+          label="配置名称"
+          prop="name"
+          :rules="[{ required: true, message: '请输入配置名称', trigger: 'blur' }]"
+        >
+          <el-input v-model="formName" placeholder="请输入配置名称"></el-input>
+        </el-form-item>
         <el-row v-for="(item, index) in formValueList" :key="index">
           <el-row class="form-row-item">
             <el-col :span="10">
@@ -62,61 +69,30 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="editMode = false">取消</el-button>
-          <el-button type="primary" @click="editOperate">确认</el-button>
+          <el-button type="primary" @click="confirmEdit">确认</el-button>
         </el-form-item>
       </el-form>
     </template>
-    <form action="">
-      <input name="git_url" type="text" value="1" />
-      <input name="git_branch" type="text" value="2" />
-      <input name="deployIps" type="checkbox" value="192.168.30.15" />
-      <input name="deployIps" type="checkbox" value="192.168.44.18" />
-    </form>
   </section>
 </template>
 
 <script>
 import * as Utils from '@/utils'
+import _ from 'lodash'
 export default {
   data() {
     return {
       // 是否展开
-      isExpand: true,
+      isExpand: false,
       // 编辑模式
-      editMode: true,
+      editMode: false,
       // 抓取模式
       catchMode: false,
-      mode: 0,
-      modeList: [
-        {
-          name: 'web_code for 30.15',
-          value: 0,
-          formValue: [
-            {
-              name: 'git_url',
-              value: 'snc_devcen/frontend/web_code',
-            },
-            {
-              name: 'git_branch',
-              value: 'develo',
-            },
-            {
-              name: 'deployIps',
-              value: '192.168.30.15',
-            },
-            {
-              name: 'deployCredentials',
-              value: 'deploy_192.168.33.126',
-            },
-            {
-              name: 'git_cretificate',
-              value: 'cd556c48-2001-4ba1-878c-bef81e3e0b54',
-            },
-          ],
-        },
-      ],
+      mode: '',
+      modeList: [],
       editInfo: {},
       formValueList: [],
+      formName: '',
     }
   },
 
@@ -127,64 +103,152 @@ export default {
   watch: {},
 
   methods: {
+    async doJenkins() {
+      const tabId = await Utils.jumpJenkis()
+      Utils.sendMessage(tabId, { greeting: 'doJenkins', value: this.getCurrentSelect() })
+    },
+    // 记录默认选中
+    selectChange() {
+      this.setModeStorage()
+    },
+    // 编辑模式
     editForm(isAdd) {
       if (isAdd) {
         this.editInfo = {}
+        this.formValueList = []
+        this.formName = ''
       } else {
         const target = this.getCurrentSelect()
         this.editInfo = target
+        this.formName = target.name
         this.formValueList = _.cloneDeep(target.formValue)
       }
+      this.editMode = true
     },
     getCurrentSelect(isIndex = false) {
       const index = this.modeList.findIndex((item) => item.value === this.mode)
       return isIndex ? index : _.cloneDeep(this.modeList[index])
     },
-    editOperate() {
-      this.$refs.formRef.validate((valid) => {
+    // 确认添加/编辑
+    confirmEdit() {
+      this.$refs.formRef.validate(async (valid) => {
         if (valid) {
-          this.editMode = false
-          // 编辑
-          if (Object.keys(editInfo)) {
-            this.modeList.push({
-              name: this.name,
-            })
-          } else {
-            const index = this.getCurrentSelect(true)
+          if (!this.formValueList.length) {
+            await this.$confirm('确定不配置任何配置项吗?')
           }
+          const isEdit = !!Object.keys(this.editInfo).length
+          this.editMode = false
+          const value = _.cloneDeep({
+            name: this.formName,
+            formValue: this.formValueList,
+            value: isEdit ? this.editInfo.value : Date.now() + '-' + parseInt(Math.random() * 100),
+          })
+          // 编辑
+          if (isEdit) {
+            const index = this.getCurrentSelect(true)
+            this.modeList[index] = value
+          } else {
+            this.modeList.push(value)
+          }
+          this.$message.success(isEdit ? '修改成功' : '添加成功')
+
           this.setStorage()
         }
       })
     },
+    // 删除当前选项
     async deleteItem() {
-      await this.$confirm('确认删除吗?')
+      if (this.modeList.length <= 1) {
+        return this.$message.error('只剩最后一项了,不能删除哦')
+      }
       const index = this.getCurrentSelect(true)
+      await this.$confirm(`确认删除选项“${this.modeList[index].name}”吗?`)
       this.modeList.splice(index, 1)
+      this.mode = this.modeList[0].value
       this.setStorage()
+      this.setModeStorage()
     },
+    // 设置配置缓存
     setStorage() {
-      console.log(111)
+      Utils.setStorage('jenkins_settings', this.modeList)
     },
+    // 设置默认选中缓存
+    setModeStorage() {
+      Utils.setStorage('lastChoose', this.mode)
+    },
+    // 点击抓取按钮
     async catchForm(type, sendMess = true) {
       this.catchMode = type
-      console.log(type)
       if (sendMess) {
         const tabId = await Utils.jumpJenkis()
         Utils.sendMessage(tabId, { greeting: type ? 'catchElement' : 'unCatchElement' })
       }
     },
+    // 添加谷歌插件的监听
+    addListener() {
+      chrome.extension?.onMessage.addListener((request) => {
+        const fn = {
+          catchForm: () => this.catchForm(false, request.value, false),
+          setFormValue: () => {
+            this.formValueList = request.value
+          },
+        }[request.greeting || 'default']
+        fn()
+      })
+    },
+    // 获取缓存的配置
+    async getStorageSetting() {
+      const [modeList, mode] = await Promise.all([
+        Utils.getStorage('jenkins_settings'),
+        Utils.getStorage('lastChoose'),
+      ])
+      // 没配置, 帮它写配置
+      if (!modeList) {
+        this.modeList = [
+          {
+            name: 'web_code for 30.15',
+            value: 0,
+            formValue: [
+              {
+                name: 'git_url',
+                value: 'snc_devcen/frontend/web_code',
+              },
+              {
+                name: 'git_branch',
+                value: 'develo',
+              },
+              {
+                name: 'deployIps',
+                value: '192.168.30.15',
+              },
+              {
+                name: 'deployCredentials',
+                value: 'deploy_192.168.33.126',
+              },
+              {
+                name: 'git_cretificate',
+                value: 'cd556c48-2001-4ba1-878c-bef81e3e0b54',
+              },
+            ],
+          },
+        ]
+        this.setStorage()
+      } else {
+        this.modeList = modeList
+      }
+      // 没默认选中,默认选中第一个
+      if (!mode) {
+        this.mode = modeList[0].value
+        this.setModeStorage()
+      } else {
+        this.mode = mode
+      }
+    },
   },
 
   created() {
-    chrome.extension?.onMessage.addListener((request) => {
-      const fn = {
-        catchForm: () => this.catchForm(false, request.value, false),
-        setFormValue: () => {
-          this.formValueList = request.value
-        },
-      }[request.greeting || 'default']
-      fn()
-    })
+    this.addListener()
+    this.getStorageSetting()
   },
 }
 </script>
