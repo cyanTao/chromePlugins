@@ -238,7 +238,7 @@ export default {
       }
       // 没默认选中,默认选中第一个
       if (!mode) {
-        this.mode = modeList[0].value
+        this.mode = this.modeList[0].value
         this.setModeStorage()
       } else {
         this.mode = mode
