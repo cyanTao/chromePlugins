@@ -55,6 +55,23 @@ export async function getCurrentTab() {
 }
 
 /**
+ * 新开一个标签页
+ * @param param0 [active] 是否激活该标签页 [url] 要跳转的链接
+ * @returns
+ */
+export function tabCreate({ active = true, url = '' }) {
+  return new Promise((resolve) => {
+    chrome.tabs.create(
+      {
+        active,
+        url,
+      },
+      resolve
+    )
+  })
+}
+
+/**
  * 跳转到Jenkins页面，并返回tabId
  */
 export function jumpJenkis() {
