@@ -67,7 +67,7 @@ npm run build
       "run_at": "document_idle" // 插入的时机
     }
   ],
-  "web_accessible_resources": ["fonts/*"],
+  "web_accessible_resources": ["dist/*"], //允许扩展外的页面访问的扩展内指定的资源。通俗来讲就是，扩展是一个文件夹A的，别人的网站是一个文件夹B，B要看A的东西，需要获得权限，而写在这个属性下的文件，就是授予了别人访问的权限。
   "background": { "scripts": ["hot-reload.js"] },
   "permissions": [
     "activeTab",

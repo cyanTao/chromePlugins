@@ -22,7 +22,7 @@
       "run_at": "document_start"
     }
   ],
-  "web_accessible_resources": ["fonts/*"],
+  "web_accessible_resources": ["dist/*"],
   "background": { "scripts": ["js/background.js"] },
   "permissions": ["activeTab", "storage", "history", "contextMenus", "downloads"]
 }
