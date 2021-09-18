@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import { sendMessageToTabs } from '@/utils'
 
 // dom加载完后
-$(window).on('DOMContentLoaded', function() {
+$(window).on('load', function() {
   // 检查有没有要执行的队列
   sendMessageToTabs({ greeting: 'checkQueue' })
 })
