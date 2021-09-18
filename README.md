@@ -48,11 +48,11 @@ npm run build
 
 ```
 {
-  "manifest_version": 2, // 版本
+  "manifest_version": 2, // 谷歌插件的版本, 基本不修改
 
   "name": "Super Jenkins",  // 插件名称
   "description": "This extension allows the user to change the background color of the current page.",
-  "version": "1.0",
+  "version": "1.0", // 代码功能版本
 
   "browser_action": {
     "default_icon": "./logo.png", // 默认图标
