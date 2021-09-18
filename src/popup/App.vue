@@ -10,17 +10,17 @@
           <el-button type="primary" @click="doJenkins">执行</el-button>
         </el-col>
       </el-row>
+      <el-row class="mt15">
+        <el-select v-model="mode" @change="selectChange">
+          <el-option
+            v-for="(item, index) in modeList"
+            :key="index"
+            :value="item.value"
+            :label="item.name"
+          ></el-option>
+        </el-select>
+      </el-row>
       <template v-if="isExpand">
-        <el-row class="mt15">
-          <el-select v-model="mode" @change="selectChange">
-            <el-option
-              v-for="(item, index) in modeList"
-              :key="index"
-              :value="item.value"
-              :label="item.name"
-            ></el-option>
-          </el-select>
-        </el-row>
         <el-row class="mt15">
           <el-button type="success" @click="editForm(true)">新增</el-button>
           <el-button type="default" @click="editForm(false)">编辑</el-button>
@@ -262,6 +262,7 @@ export default {
 <style lang='less' scoped>
 .body {
   width: 200px;
+  height: 200px;
   &.expand {
     width: 500px;
     height: 300px;
