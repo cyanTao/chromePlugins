@@ -17,6 +17,10 @@ module.exports = {
     content: {
       import: path.resolve(sourcePath, './content/index.ts'),
       filename: 'js/[name].js'
+    },
+    background: {
+      import: path.resolve(sourcePath, './background/index.ts'),
+      filename: 'js/[name].js'
     }
   },
   devtool: false,
@@ -88,7 +92,8 @@ module.exports = {
     alias: {
       "@": sourcePath,
       "@popup": path.resolve(sourcePath, 'popup'),
-      "@content": path.resolve(sourcePath, 'content')
+      "@content": path.resolve(sourcePath, 'content'),
+      "@background": path.resolve(sourcePath, 'background')
     },
     extensions: ['.ts', '.js']
   },
@@ -109,7 +114,7 @@ module.exports = {
       title: 'super JenKins',
       template: path.resolve(__dirname, '../template/popup.html'),
       filename: path.resolve(__dirname, '../dist/popup.html'),
-      excludeChunks: ['content'],
+      excludeChunks: ['content', 'background'],
       minify: process.env.NODE_ENV === 'production',
       showErrors: true,
     }),

@@ -2,6 +2,12 @@ import './index.less'
 import * as _ from 'lodash'
 import { sendMessageToTabs } from '@/utils'
 
+// dom加载完后
+$(window).on('DOMContentLoaded', function() {
+  // 检查有没有要执行的队列
+  sendMessageToTabs({ greeting: 'checkQueue' })
+})
+
 const moveEvent = windowMoveEvent()
 const activeClassName = 'dom-active-style',
   hoverClassName = 'dom-hover-style'
@@ -21,6 +27,7 @@ const contentScript = {
   },
   async doJenkins(req, callback) {
     console.log(req)
+    alert(11)
     callback()
   },
   async building(req: any, callback = () => {}) {

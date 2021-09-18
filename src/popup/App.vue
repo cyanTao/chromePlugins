@@ -4,10 +4,10 @@
     <template v-if="!editMode">
       <el-row class="header-row">
         <el-col :span="12">
-          <el-button type="primary" @click="doJenkins">执行</el-button>
-        </el-col>
-        <el-col :span="12">
           <el-checkbox class="expend-checkbox" v-model="isExpand">展开</el-checkbox>
+        </el-col>
+        <el-col :span="12" style="text-align: right">
+          <el-button type="primary" @click="doJenkins">执行</el-button>
         </el-col>
       </el-row>
       <template v-if="isExpand">
@@ -79,6 +79,7 @@
 <script>
 import * as Utils from '@/utils'
 import _ from 'lodash'
+import { KEY } from '@/config'
 export default {
   data() {
     return {
@@ -104,8 +105,14 @@ export default {
 
   methods: {
     async doJenkins() {
-      const tabId = await Utils.jumpJenkis()
-      Utils.sendMessage(tabId, { greeting: 'doJenkins', value: this.getCurrentSelect() })
+      const { id: tabId } = await Utils.tabCreate({ url: 'http://baidu.com', active: false })
+      const queue = (await Utils.getStorage(KEY.queueStorageKey)) || []
+      Utils.setStorage(
+        KEY.queueStorageKey,
+        queue.concat([
+          { tabId, message: { greeting: 'doJenkins', value: this.getCurrentSelect() } },
+        ])
+      )
     },
     // 记录默认选中
     selectChange() {
@@ -170,11 +177,11 @@ export default {
     },
     // 设置配置缓存
     setStorage() {
-      Utils.setStorage('jenkins_settings', this.modeList)
+      Utils.setStorage(KEY.jenkinsStorageKey, this.modeList)
     },
     // 设置默认选中缓存
     setModeStorage() {
-      Utils.setStorage('lastChoose', this.mode)
+      Utils.setStorage(KEY.jenkinsLastChoose, this.mode)
     },
     // 点击抓取按钮
     async catchForm(type, sendMess = true) {
@@ -193,14 +200,14 @@ export default {
             this.formValueList = request.value
           },
         }[request.greeting || 'default']
-        fn()
+        typeof fn === 'function' && fn()
       })
     },
     // 获取缓存的配置
     async getStorageSetting() {
       const [modeList, mode] = await Promise.all([
-        Utils.getStorage('jenkins_settings'),
-        Utils.getStorage('lastChoose'),
+        Utils.getStorage(KEY.jenkinsStorageKey),
+        Utils.getStorage(KEY.jenkinsLastChoose),
       ])
       // 没配置, 帮它写配置
       if (!modeList) {

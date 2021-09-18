@@ -1,0 +1,10 @@
+/*!*****************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/less-loader/dist/cjs.js!./src/content/index.less ***!
+  \*****************************************************************************************************************/
+.dom-hover-style {
+  border: 2px solid red !important;
+}
+.dom-active-style {
+  border: 2px solid gold !important;
+}
+
