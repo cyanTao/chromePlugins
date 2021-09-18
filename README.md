@@ -9,6 +9,14 @@
 ├─build                                # webpack打包配置
 ├─template                             # 模板文件目录,其内容除了html文件都会被复制到dist打包目录
 ├─src                                  # 源代码目录
+   |─config                            # 配置文件
+      |_index.ts                       # 入口文件
+      |_key.ts                         # 存放key字段的文件
+   |─background                        # 并运行在浏览器背景页background.js文件
+      |_index.ts                       # 入口文件
+      |_hot-reload.js                  # 协助开发的热更新文件，检测到文件修改会自动刷新popup.html和content.js所在的页面
+      |_action.ts                      # 处理来自浏览器的事件
+      |_onMessage.ts                   # 监听来自浏览器的消息
    |─content                           # 插入并运行在浏览器的content_scripts文件
       |_index.ts                       # 打包后生成的content.js(插入浏览器的js脚本文件)
       |_index.less                     # 打包后生成的content.css(插入浏览器的css样式文件)
