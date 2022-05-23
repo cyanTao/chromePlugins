@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { executeScript } from '@/utils'
 export default {
   data() {
     return {}
@@ -18,7 +19,7 @@ export default {
 
   methods: {
     loopDom() {
-      function loopDom(children) {
+      const scripts = `function loopDom(children) {
         if (children && children.length) {
           Array.from(children).forEach((item) => {
             if (item.style.display === 'none') {
@@ -28,7 +29,8 @@ export default {
           })
         }
       }
-      loopDom(document.documentElement.children)
+      loopDom(document.documentElement.children)`
+      executeScript(scripts)
     },
   },
 
