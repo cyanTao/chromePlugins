@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "我的扩展程序",
+  "description": "从Google获得信息。",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "./img/logo.png",
+    "default_popup": "./popup.html"
+  },
+  "icons": {
+    "128": "./img/logo.png",
+    "16": "./img/logo.png"
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_scripts": [
+    {
+      "matches": ["https://www.baidu.com/*"],
+      "js": ["js/jquery.min.js", "js/content.js"],
+      "css": ["css/content.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "background": { "scripts": ["js/background.js", "js/hot-reload.js"] },
+  "permissions": ["activeTab", "storage"]
+}

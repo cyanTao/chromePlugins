@@ -1,0 +1,18 @@
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 500px;
+  padding: 20px;
+}
+.flex label {
+  white-space: nowrap;
+}
+
+.btn-box {
+  display: flex;
+  flex-direction: column;
+}
+.btn-box button {
+  margin-bottom: 10px;
+}

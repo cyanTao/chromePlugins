@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+
+  "name": "我的扩展程序2",
+  "description": "This extension allows the user to change the background color of the current page.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "./logo.png",
+    "default_popup": "./popup.html"
+  },
+  "icons": {
+    "128": "logo.png",
+    "16": "logo.png"
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_scripts": [
+    {
+      "matches": ["https://www.baidu.com/*", "http://192.168.32.19:8080/*"],
+      "js": ["libs/jquery.min.js", "js/content.js"],
+      "css": ["css/content.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "css": ["css/all.css", "js/content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": ["dist/*"],
+  "background": { "scripts": ["js/background.js"] },
+  "permissions": ["activeTab", "storage", "history", "contextMenus", "downloads"]
+}

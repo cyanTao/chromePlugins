@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist/",
+    "lib": ["ES2015", "DOM"],
+    "target": "es5",
+    "module": "ES6",
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./src/types",
+      "./node_modules/vue/types",
+      "./node_modules/@types",
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@popup/*": [
+        "src/popup/*"
+      ],
+      "@content/*": [
+        "src/content/*"
+      ]
+    },
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
