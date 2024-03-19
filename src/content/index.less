@@ -5,3 +5,80 @@
 .dom-active-style {
   border: 2px solid gold !important;
 }
+
+#app {
+  & > .el-container {
+    & > .el-container {
+      // 左侧
+      // .el-aside {
+      //   background-color: #282f40;
+      //   .my-menu {
+      //     background-color: #282f40 !important;
+      //   }
+      // }
+    }
+    & > .el-container {
+      .tags-view-container {
+        // background-color: red;
+      }
+      .base-table-box  {
+        div.cell {
+          background-color: rgb(204, 232, 207) !important;
+          font-weight: bold;
+          font-size: 16px;
+          .el-input__inner {
+            background-color: rgba(242,243,250,.3) !important;
+            font-weight: bold;
+            font-size: 16px;
+          }
+        }
+      }
+      .base-u-table-box .plTableBox .el-table th {
+        background-color: rgb(204, 232, 207) !important;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .plTableBox .el-table tr {
+        background-color: rgb(204, 232, 207) !important;
+        font-weight: bold;
+        font-size: 16px;
+
+      }
+      .plTableBox .el-table__body tr.hover-row.current-row>td, .plTableBox .el-table__body tr.hover-row.el-table__row--striped.current-row>td, .plTableBox .el-table__body tr.hover-row.el-table__row--striped>td, .plTableBox .el-table__body tr.hover-row>td {
+        background-color: gray;
+        font-weight: bold;
+        font-size: 16px;
+
+      }
+
+      // 详情页开始
+      .detail-content {
+        .customer-detail {
+          .detail-top, .detail-main-left, .detail-main-left .record-container, .detail-main-right > div {
+            background-color: rgb(204, 232, 207) !important;
+            font-weight: bold;
+            
+            input, textarea {
+              background-color: #f2f3f4;
+            }
+            .el-table {
+              .cell {
+                background-color: #f2f3f4;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.el-popper.follow-records-popper  {
+  background-color: rgb(242,243,250) !important;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
+  .right-desc {
+    color: black;
+  }
+}
