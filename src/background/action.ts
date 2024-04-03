@@ -76,8 +76,20 @@ export function getCurrentTabUrl(callback) {
  * @param {string} color The new background color.
  */
 export function changeBackgroundColor(color) {
-  chrome.tabs.insertCSS(null, {code: `* { background-color: ${color} !important; }`});
-  // var script = `document.body.style.backgroundColor="${color}";document.querySelectorAll('*').forEach(item => item.style.backgroundColor = '${color}');`
+  chrome.tabs.insertCSS(null, {code: `* { background-color: ${color || 'unset'} !important;color:black;font-weight: bolder !important; }`});
+  // var script = `
+  //   document.body.style.backgroundColor="${color}";
+  //   document.querySelectorAll('*').forEach(item => {
+  //     if('${color || ''}') {
+  //       const beforeColor = item.style.backgroundColor
+  //       item.setAttribute('back-background', beforeColor)
+  //       item.style.backgroundColor = beforeColor || '${color}';
+  //     } else {
+  //       const cc = item.getAttribute('back-background') || ''
+  //       item.style.backgroundColor = cc;
+  //     }
+  //   })
+  // `
   // chrome.tabs.executeScript({
   //   code: script,
   // })
