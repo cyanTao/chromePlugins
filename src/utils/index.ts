@@ -1,3 +1,4 @@
+import { Message } from 'element-ui'
 /**
  * 设置浏览器后台缓存
  * @param key 缓存健
@@ -149,4 +150,44 @@ export function promisify(fn: Function): Promise<any> {
       fn.apply(null, args)
     })
   })()
+}
+
+
+export const copyText = (text, message = '复制成功') => {
+  if (typeof text !== 'string') {
+    return
+  }
+  let textarea = null
+  const action = () => {
+    if (navigator.clipboard) {
+      // clipboard api 复制
+      navigator.clipboard.writeText(text)
+    } else {
+      textarea = document.createElement('textarea')
+      document.body.appendChild(textarea)
+      // 隐藏此输入框
+      textarea.style.position = 'fixed'
+      textarea.style.clip = 'rect(0 0 0 0)'
+      textarea.style.top = '10px'
+      // 赋值
+      textarea.value = text
+      // 选中
+      textarea.select()
+      // 复制
+      document.execCommand('copy', true)
+      // 移除输入框
+      document.body.removeChild(textarea)
+    }
+  }
+  try {
+    action()
+    if(message) {
+      Message({
+        message: message,
+        type: 'success',
+      })
+    }
+  } catch (e) {
+    textarea && document.body.removeChild(textarea)
+  }
 }
