@@ -12,7 +12,53 @@ document.addEventListener('DOMContentLoaded', () => {
   //   document.body.insertBefore(div, document.body.firstChild)
   // }, 2000)
   // sendMessageToTabs({ greeting: 'setDefaultColor' })
+  replagePhone()
+  document.addEventListener('mouseover', () => {
+    replagePhone()
+  })
 })
+
+let hxReplagePhoneTimer = null
+let time = 0
+let total = 10
+function replagePhone() {
+  clearInterval(hxReplagePhoneTimer)
+  time = 0
+
+  hxReplagePhoneTimer = setInterval(() => {
+    console.log(time)
+    time++
+    if(time >= total) {
+      clearInterval(hxReplagePhoneTimer)
+      return
+    }
+
+    const test = /^(\d{3})(\d{1,4})(\d{1,4})$/
+
+    const table = document.querySelector('.table-section .el-table__body-wrapper')
+    Array.from($(table).find('tr')).map((item) => {
+      const td = Array.from($(item).find('td'))
+        .slice(2, 5)
+        .map((item, index) => {
+          const text = $(item).text()
+          if (typeof text === 'string' && text.length === 11 && text.match(test)) {
+            $(item)
+              .find('.phone')
+              .text(getPhone(text))
+          }
+        })
+      return td
+    })
+
+    function getPhone(phone) {
+      if (isNaN(phone)) {
+        return phone
+      }
+
+      return phone.replace(test, '$1 $2 $3')
+    }
+  }, 1000)
+}
 
 const contentScript = {
   async catchElement(req?: any, callback = () => {}) {
@@ -34,7 +80,9 @@ const contentScript = {
                 .trim()
                 .split(' ')[0]
             } else {
-              return $(item).text().replace(/\s+/g, '')
+              return $(item)
+                .text()
+                .replace(/\s+/g, '')
             }
           })
         return td
