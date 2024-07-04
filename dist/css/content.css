@@ -55,6 +55,29 @@
 #app > .el-container > .el-container .detail-content .customer-detail .detail-main-right > div .el-table .cell {
   background-color: #f2f3f4;
 }
+#app .arco-table td {
+  background-color: #cce8cf !important;
+  font-size: 16px;
+}
+#app .arco-table td .arco-table-cell {
+  position: relative;
+}
+#app .arco-table td .arco-table-cell .index-number {
+  border-radius: 50%;
+  border: 2px solid rgb(29, 33, 41);
+  line-height: 10px;
+  padding: 5px;
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, -1px);
+  white-space: nowrap;
+  font-weight: bold;
+}
+#app .arco-table td .el-input__inner {
+  background-color: rgba(242, 243, 250, 0.3) !important;
+  font-size: 16px;
+}
 .el-popper.follow-records-popper {
   background-color: #f2f3fa !important;
   font-weight: bold;

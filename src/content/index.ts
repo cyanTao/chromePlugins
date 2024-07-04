@@ -26,9 +26,8 @@ function replagePhone() {
   time = 0
 
   hxReplagePhoneTimer = setInterval(() => {
-    console.log(time)
     time++
-    if(time >= total) {
+    if (time >= total) {
       clearInterval(hxReplagePhoneTimer)
       return
     }
@@ -36,7 +35,7 @@ function replagePhone() {
     const test = /^(\d{3})(\d{1,4})(\d{1,4})$/
 
     const table = document.querySelector('.table-section .el-table__body-wrapper')
-    Array.from($(table).find('tr')).map((item) => {
+    const result = Array.from($(table).find('tr')).map((item) => {
       const td = Array.from($(item).find('td'))
         .slice(2, 5)
         .map((item, index) => {
@@ -49,6 +48,36 @@ function replagePhone() {
         })
       return td
     })
+
+    if(result.length) {
+      clearInterval(hxReplagePhoneTimer)
+      return
+    }
+
+    // 旧系统
+    const oldResult = Array.from($('.arco-table').find('tbody').find('tr')).map((item, index) => {
+      const td = Array.from($(item).find('td'))
+        .slice(0, 2)
+        .map((item, i) => {
+          if(i === 0) {
+            if(!$(item).find('.arco-table-cell .index-number').length) {
+              $(item).find('.arco-table-cell').append($(`<span class="index-number">${index + 1}</span>`))
+            }
+          } else {
+            const text = $(item).text()
+            if (typeof text === 'string' && text.length === 11 && text.match(test)) {
+              $(item)
+                .find('.arco-table-td-content>span')
+                .text(getPhone(text))
+            }
+          }
+        })
+      return td
+    })
+
+    if(oldResult.length) {
+      clearInterval(hxReplagePhoneTimer)
+    }
 
     function getPhone(phone) {
       if (isNaN(phone)) {

@@ -11,6 +11,7 @@
 // }
 
 #app {
+  // 新系统
   & > .el-container {
     & > .el-container {
       // 左侧
@@ -73,6 +74,33 @@
           }
         }
       }
+    }
+  }
+
+  // 旧系统
+  .arco-table td {
+    .arco-table-cell {
+      position: relative;
+      .index-number {
+        border-radius: 50%;
+        border: 2px solid rgb(29, 33, 41;);
+        line-height: 10px;
+        padding: 5px;
+        position: absolute;
+        left: 50%;
+        bottom: 100%;
+        transform: translate(-50%, -1px);
+        white-space: nowrap;
+        font-weight: bold;
+      }
+    }
+    background-color: rgb(204, 232, 207) !important;
+    // font-weight: bold;
+    font-size: 16px;
+    .el-input__inner {
+      background-color: rgba(242,243,250,.3) !important;
+      // font-weight: bold;
+      font-size: 16px;
     }
   }
 }
